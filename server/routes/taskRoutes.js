@@ -1,11 +1,9 @@
 const express = require("express");
 const Task = require("../models/Task");
-
 const router = express.Router();
 
 // Create a task
 router.post("/", async (req, res) => {
-  console.log("📩 Received POST request:", req.body);
   try {
     const task = await Task.create({ title: req.body.title });
     res.json(task);
