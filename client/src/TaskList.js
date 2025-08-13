@@ -5,7 +5,8 @@ function TaskList() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/tasks")
+    // ✅ Use relative path so it works in production and locally
+    axios.get("/api/tasks")
       .then(res => setTasks(res.data))
       .catch(err => console.error(err));
   }, []);

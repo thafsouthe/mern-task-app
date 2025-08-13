@@ -16,18 +16,18 @@ mongoose
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Routes
+// API routes
 const taskRoutes = require("./routes/taskRoutes");
 app.use("/api/tasks", taskRoutes);
 
-// Serve frontend in production
-if (process.env.NODE_ENV === "production") {
-  const buildPath = path.join(__dirname, "../client/build");
-  app.use(express.static(buildPath));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(buildPath, "index.html"));
-  });
-}
+// Serve React frontend in production
+const buildPath = path.join(__dirname, "client", "build");
+app.use(express.static(buildPath));
+
+// ✅ Catch-all for React frontend, excluding API routes
+app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
+});
 
 // Start server
 const PORT = process.env.PORT || 5000;
